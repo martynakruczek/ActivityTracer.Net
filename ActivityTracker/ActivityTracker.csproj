@@ -206,6 +206,22 @@
     <Compile Include="Migrations\201806071424377_InitialCreate.Designer.cs">
       <DependentUpon>201806071424377_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806080758096_Third.cs" />
+    <Compile Include="Migrations\201806080758096_Third.Designer.cs">
+      <DependentUpon>201806080758096_Third.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806080810369_Datetime2.cs" />
+    <Compile Include="Migrations\201806080810369_Datetime2.Designer.cs">
+      <DependentUpon>201806080810369_Datetime2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806080813359_Datetime2Fixed.cs" />
+    <Compile Include="Migrations\201806080813359_Datetime2Fixed.Designer.cs">
+      <DependentUpon>201806080813359_Datetime2Fixed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806090025575_UserName.cs" />
+    <Compile Include="Migrations\201806090025575_UserName.Designer.cs">
+      <DependentUpon>201806090025575_UserName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -272,10 +288,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Shared\_UserPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -293,6 +310,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201806071424377_InitialCreate.resx">
       <DependentUpon>201806071424377_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806080758096_Third.resx">
+      <DependentUpon>201806080758096_Third.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806080810369_Datetime2.resx">
+      <DependentUpon>201806080810369_Datetime2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806080813359_Datetime2Fixed.resx">
+      <DependentUpon>201806080813359_Datetime2Fixed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806090025575_UserName.resx">
+      <DependentUpon>201806090025575_UserName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -8,10 +8,32 @@ namespace ActivityTracker.Controllers
 {
     public class UserController : Controller
     {
-        // GET: User
+        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
+
+        [Authorize]
+        public ActionResult Settings()
+        {
+            return View();
+        }
+        [Authorize]
+        public ActionResult Trainings()
+        {
+            return View();
+        }
+        [Authorize]
+        public ActionResult Summary()
+        {
+            return View();
+        }
+        [Authorize]
+        public ActionResult Goal()
+        {
+            return View();
+        }
+
     }
 }
