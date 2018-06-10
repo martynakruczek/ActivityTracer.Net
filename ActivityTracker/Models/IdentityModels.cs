@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -12,6 +14,8 @@ namespace ActivityTracker.Models
     {
         public string LastName { get; set; }
         public DateTime ? BirthDate { get; set; }
+        public eGender ? Gender { get; set; }
+        public List<Workout> ListOfWorkouts { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -33,6 +37,10 @@ namespace ActivityTracker.Models
         {
             return new ApplicationDbContext();
         }
+    }
 
+    public class ApplicationWorkoutDbContext : DbContext
+    {
+        public DbSet<Workout> Workouts { get; set; }
     }
 }

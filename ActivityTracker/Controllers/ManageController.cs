@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ActivityTracker.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ActivityTracker.Controllers
 {
@@ -60,18 +61,43 @@ namespace ActivityTracker.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
             var userId = User.Identity.GetUserId();
+
             var user = UserManager.FindById(User.Identity.GetUserId());
             var model = new IndexViewModel
             {
+                Id = user.Id,
                 UserName = user.UserName,
                 BirthDate = user.BirthDate,
+                Gender = user.Gender,
                 HasPassword = HasPassword(),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
         }
-
+        [HttpPost]
+        public async Task<ActionResult> Index(IndexViewModel viewModel, ManageMessageId? message)
+        {
+            var user = UserManager.FindById(viewModel.Id);
+            user.UserName = viewModel.UserName;
+            user.BirthDate = viewModel.BirthDate;
+            user.Gender = viewModel.Gender;
+            var result = await UserManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+                message = ManageMessageId.UpdateProfileSuccess;
+            }
+            else
+            {
+                message = ManageMessageId.Error;
+            }
+            return RedirectToAction("Index", "User");
+        }
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
@@ -372,6 +398,7 @@ namespace ActivityTracker.Controllers
 
         public enum ManageMessageId
         {
+            UpdateProfileSuccess,
             AddPhoneSuccess,
             ChangePasswordSuccess,
             SetTwoFactorSuccess,

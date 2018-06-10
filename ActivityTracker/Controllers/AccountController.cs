@@ -79,7 +79,7 @@ namespace ActivityTracker.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "User");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -154,6 +154,7 @@ namespace ActivityTracker.Controllers
                 var user = new ApplicationUser {
                     UserName = model.UserName,
                     BirthDate = model.BirthDate,
+                    Gender = model.Gender,
                     Email = model.Email
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
