@@ -90,7 +90,7 @@ namespace ActivityTracker.Controllers
             ctx.Workouts.Add(workout);
             ctx.SaveChanges();
             
-            return RedirectToAction("Index");
+            return RedirectToAction("History");
         }
 
         [Authorize]
@@ -152,7 +152,7 @@ namespace ActivityTracker.Controllers
         }
 
         [Authorize]
-        public ActionResult Goal()
+        public ActionResult Summary()
         {
             return View();
         }

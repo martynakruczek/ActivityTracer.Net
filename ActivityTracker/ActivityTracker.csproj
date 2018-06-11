@@ -262,12 +262,21 @@
     <Compile Include="Migrations\201806111527130_WorkoutStartENd.Designer.cs">
       <DependentUpon>201806111527130_WorkoutStartENd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806112020591_Steps.cs" />
+    <Compile Include="Migrations\201806112020591_Steps.Designer.cs">
+      <DependentUpon>201806112020591_Steps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806112108552_DeleteLastName.cs" />
+    <Compile Include="Migrations\201806112108552_DeleteLastName.Designer.cs">
+      <DependentUpon>201806112108552_DeleteLastName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Enums\eGender.cs" />
     <Compile Include="Models\Enums\eSport.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Steps.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Workout.cs" />
     <Compile Include="Models\WorkoutViewModel.cs" />
@@ -336,6 +345,7 @@
     <Content Include="Views\User\AddWorkout.cshtml" />
     <Content Include="Views\User\History.cshtml" />
     <Content Include="Views\User\EditWorkout.cshtml" />
+    <Content Include="Views\User\Summary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -398,6 +408,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806111527130_WorkoutStartENd.resx">
       <DependentUpon>201806111527130_WorkoutStartENd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806112020591_Steps.resx">
+      <DependentUpon>201806112020591_Steps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806112108552_DeleteLastName.resx">
+      <DependentUpon>201806112108552_DeleteLastName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
