@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ActivityTracker.Models.WorkoutViewModel>
+
+@{
+    ViewBag.Title = "History";
+}
+
+<h2>History</h2>
+
+<p>
+    @Html.ActionLink("Create New", "AddWorkout")
+</p>
+<div class="col-xs-12 col-sm-9">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfWorkout)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndAt)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfWorkout)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndAt)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditWorkout", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+

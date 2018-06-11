@@ -195,7 +195,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="BLL\WorkoutManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -246,6 +245,22 @@
     <Compile Include="Migrations\201806100008324_ListofWorkouts.cs" />
     <Compile Include="Migrations\201806100008324_ListofWorkouts.Designer.cs">
       <DependentUpon>201806100008324_ListofWorkouts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806100851503_Duratin.cs" />
+    <Compile Include="Migrations\201806100851503_Duratin.Designer.cs">
+      <DependentUpon>201806100851503_Duratin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806102105296_WorkoutwithId.cs" />
+    <Compile Include="Migrations\201806102105296_WorkoutwithId.Designer.cs">
+      <DependentUpon>201806102105296_WorkoutwithId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806102122111_WorkoutwithId1.cs" />
+    <Compile Include="Migrations\201806102122111_WorkoutwithId1.Designer.cs">
+      <DependentUpon>201806102122111_WorkoutwithId1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806111527130_WorkoutStartENd.cs" />
+    <Compile Include="Migrations\201806111527130_WorkoutStartENd.Designer.cs">
+      <DependentUpon>201806111527130_WorkoutStartENd.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -319,6 +334,8 @@
     <Content Include="Views\Shared\_UserPanel.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\AddWorkout.cshtml" />
+    <Content Include="Views\User\History.cshtml" />
+    <Content Include="Views\User\EditWorkout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -369,6 +386,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806100008324_ListofWorkouts.resx">
       <DependentUpon>201806100008324_ListofWorkouts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806100851503_Duratin.resx">
+      <DependentUpon>201806100851503_Duratin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806102105296_WorkoutwithId.resx">
+      <DependentUpon>201806102105296_WorkoutwithId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806102122111_WorkoutwithId1.resx">
+      <DependentUpon>201806102122111_WorkoutwithId1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806111527130_WorkoutStartENd.resx">
+      <DependentUpon>201806111527130_WorkoutStartENd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

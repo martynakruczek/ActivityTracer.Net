@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -15,10 +16,14 @@ namespace ActivityTracker.Models
         [DataType(DataType.Date)]
         [Display(Name = "Date of workout")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd-yyyy}")]
-        public DateTime DateOfWorkout { get; set; }
+        public DateTime ? DateOfWorkout { get; set; }
         [DataType(DataType.Time)]
-        [Display(Name = "Date of workout")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd-yyyy}")]
-        public DateTime Duration { get; set; }
+        [Display(Name = "Start")]
+        public DateTime? StartAt { get; set; }
+        [DataType(DataType.Time)]
+        [Display(Name = "End")]
+        public DateTime? EndAt { get; set; }
+        public string ApplicationUserID { get; set; }
+
     }
 }

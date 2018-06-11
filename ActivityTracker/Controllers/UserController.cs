@@ -1,9 +1,9 @@
-﻿using ActivityTracker.BLL;
-using ActivityTracker.Models;
+﻿using ActivityTracker.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,7 +12,6 @@ namespace ActivityTracker.Controllers
 {
     public class UserController : Controller
     {
-        private WorkoutManager _workoutManager;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -24,7 +23,6 @@ namespace ActivityTracker.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            _workoutManager = new WorkoutManager();
 
         }
         public ApplicationSignInManager SignInManager
@@ -69,43 +67,90 @@ namespace ActivityTracker.Controllers
         {
             return View(new WorkoutViewModel());
         }
-        
+
         [HttpPost]
         [Authorize]
-        public ActionResult AddWorkout(WorkoutViewModel workoutvm)
+        public ActionResult AddWorkout(WorkoutViewModel vm)
         {
+            var userId = User.Identity.GetUserId();
+
+            var ctx = new ApplicationDbContext();
+            IEnumerable<Workout> workouts = new List<Workout>();
+
             var workout = new Workout()
             {
-                Id = workoutvm.Id,
-                Title = workoutvm.Title,
-                DateOfWorkout = workoutvm.DateOfWorkout,
-                Duration = workoutvm.Duration,
-                Sport = workoutvm.Sport
+                Title = vm.Title,
+                DateOfWorkout = vm.DateOfWorkout,
+                StartAt = vm.StartAt,
+                EndAt = vm.EndAt,
+                Sport = vm.Sport,
+                ApplicationUserID = userId,
+                
             };
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user.ListOfWorkouts == null)
-            {
-                user.ListOfWorkouts = new List<Workout>();
-            }
-            user.ListOfWorkouts.Add(workout);
-            _workoutManager.Add(workout);
-            var result = UserManager.UpdateAsync(user);
-            SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            ctx.Workouts.Add(workout);
+            ctx.SaveChanges();
+            
             return RedirectToAction("Index");
         }
 
         [Authorize]
-        public ActionResult Summary()
+        public ActionResult History()
         {
-            return View(_workoutManager.GetWorkouts().Select(x => new WorkoutViewModel
+            var ctx = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            var workouts = ctx.Workouts.Where(x => x.ApplicationUserID == userId).ToList();
+            var model = workouts.Select(x => new WorkoutViewModel
             {
                 Id = x.Id,
                 Title = x.Title,
                 Sport = x.Sport,
-                Duration = x.Duration,
+                StartAt = x.StartAt,
+                EndAt = x.EndAt,
                 DateOfWorkout = x.DateOfWorkout,
-            }));
+            });
+            return View(model);
         }
+
+        [Authorize]
+        public ActionResult EditWorkout(int id)
+        {
+            var ctx = new ApplicationDbContext();
+            Workout workout = ctx.Workouts.Where(x => x.Id == id).First();
+
+            var vm = new WorkoutViewModel()
+            {
+                Id = id,
+                Title = workout.Title,
+                Sport = workout.Sport,
+                StartAt = workout.StartAt,
+                EndAt = workout.EndAt,
+                DateOfWorkout = workout.DateOfWorkout,
+            };
+            return View(vm);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditWorkout(WorkoutViewModel vm)
+        {
+            var workout = new Workout()
+            {
+                Id = vm.Id,
+                Title = vm.Title,
+                Sport = vm.Sport,
+                StartAt = vm.StartAt,
+                EndAt = vm.EndAt,
+                DateOfWorkout = vm.DateOfWorkout,
+                ApplicationUserID = User.Identity.GetUserId()
+            };
+            var ctx = new ApplicationDbContext();
+            ctx.Entry(ctx.Workouts.FirstOrDefault(x=>x.Id == workout.Id))
+                .CurrentValues.SetValues(workout);
+            ctx.SaveChanges();
+            return RedirectToAction("History");
+
+        }
+
         [Authorize]
         public ActionResult Goal()
         {

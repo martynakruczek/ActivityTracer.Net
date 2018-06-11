@@ -13,9 +13,9 @@ namespace ActivityTracker.Models
     public class ApplicationUser : IdentityUser
     {
         public string LastName { get; set; }
-        public DateTime ? BirthDate { get; set; }
-        public eGender ? Gender { get; set; }
-        public List<Workout> ListOfWorkouts { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public eGender? Gender { get; set; }
+        public virtual ICollection<Workout> ListOfWorkouts { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -32,15 +32,20 @@ namespace ActivityTracker.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+        public DbSet<Workout> Workouts { get; set; }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Workout>()
+        //                .HasRequired(p => p.ApplicationUser)
+        //                .WithMany(t => t.ListOfWorkouts)
+        //                .HasForeignKey(p => p.ApplicationUser_Id);
+        //}
     }
 
-    public class ApplicationWorkoutDbContext : DbContext
-    {
-        public DbSet<Workout> Workouts { get; set; }
-    }
 }
