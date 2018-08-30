@@ -22,6 +22,7 @@ namespace ActivityTracker.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime ? BirthDate { get; set; }
         public eGender? Gender { get; set; }
+        public byte[] UserAvatar { get; set; }
     }
 
     public class ManageLoginsViewModel

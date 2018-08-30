@@ -15,7 +15,7 @@ namespace ActivityTracker.Models
         public eSport ? Sport { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Date of workout")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-mm-yyyy}")]
         public DateTime ? DateOfWorkout { get; set; }
         [DataType(DataType.Time)]
         [Display(Name = "Start")]

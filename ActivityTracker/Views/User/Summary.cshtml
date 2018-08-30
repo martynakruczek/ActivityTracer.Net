@@ -1,16 +1,100 @@
-﻿
+﻿<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+@using Highsoft.Web.Mvc.Charts
+@using System.Collections
+@model ActivityTracker.Models.SummaryViewModel
+
 @{
     ViewBag.Title = "Summary";
 }
+<div class="col-xs-12 col-sm-9">
+    <script type="text/javascript">
+        function formatXAxis() {
+            return this.value; // clean, unformatted number for year
+        }
 
-<h2>Summary</h2>
+        function formatYAxis() {
+            return this.value;
+        }
+    </script>
 
-@{
-    var myChart = new Chart(width: 600, height: 400)
-        .AddTitle("Chart Title")
-        .AddSeries(
-            name: "Employee",
-            xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
-            yValues: new[] { "2", "6", "4", "5", "3" })
-        .Write();
-}
+
+    @(Html.Highsoft().GetHighcharts(
+            new Highcharts
+            {
+                Title = new Title
+                {
+                    Text = "Daily steps"
+                },
+
+                XAxis = new List<XAxis>
+                {
+                    new XAxis
+                    {
+                        Type = XAxisType.Datetime,
+                        DateTimeLabelFormats = new Hashtable
+                        {
+
+                            { "hour", "%H:%M" },
+                        }
+                    }
+                },
+                    YAxis = new List<YAxis>
+                    {
+                        new YAxis
+                        {
+                            Title = new YAxisTitle
+                            {
+                                Text = "Steps"
+                            },
+                            Min = 0,
+                        }
+                    },
+                        
+                    Tooltip = new Tooltip
+                    {
+                        HeaderFormat = "<span style='font-size:10px'>{point.key}</span><table style='font-size:12px'>",
+                        PointFormat = "<tr><td style='color:{series.color};padding:0'>{series.name}: </td><td style='padding:0'><b>{point.y:.1f}&nbsp;</b></td></tr>",
+                        FooterFormat = "</table>",
+                        Shared = true,
+                        UseHTML = true
+                    },
+                    PlotOptions = new PlotOptions
+                    {
+                        Column = new PlotOptionsColumn
+                        {
+                            PointPadding = 0.2,
+                            BorderWidth = 0
+                        }
+                    },
+                    Series = new List<Series>
+                    {
+                        new ColumnSeries
+                        {
+                            Name = "Steps",
+                            Data = @ViewData["vData"] as List<ColumnSeriesData>
+                        }   
+                    }
+                }
+                , "chart")
+)
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="container-fluid pull-right">
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Show day" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+
+    }
+</div>

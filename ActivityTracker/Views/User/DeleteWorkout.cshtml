@@ -1,0 +1,49 @@
+﻿@model ActivityTracker.Models.Workout
+
+@{
+    ViewBag.Title = "DeleteWorkout";
+}
+<div class="col-xs-12 col-sm-9">
+    <h2>Delete Workout</h2>
+
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sport)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Sport)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateOfWorkout)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateOfWorkout)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</div>

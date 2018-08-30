@@ -1,10 +1,13 @@
 ﻿using ActivityTracker.Models;
+using Highsoft.Web.Mvc.Charts;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -73,9 +76,12 @@ namespace ActivityTracker.Controllers
         public ActionResult AddWorkout(WorkoutViewModel vm)
         {
             var userId = User.Identity.GetUserId();
-
+            var user = UserManager.FindById(userId);
             var ctx = new ApplicationDbContext();
-            IEnumerable<Workout> workouts = new List<Workout>();
+            if (user.ListOfWorkouts == null)
+            {
+                IEnumerable<Workout> workouts = new List<Workout>();
+            }
 
             var workout = new Workout()
             {
@@ -85,11 +91,11 @@ namespace ActivityTracker.Controllers
                 EndAt = vm.EndAt,
                 Sport = vm.Sport,
                 ApplicationUserID = userId,
-                
+
             };
             ctx.Workouts.Add(workout);
             ctx.SaveChanges();
-            
+
             return RedirectToAction("History");
         }
 
@@ -98,7 +104,7 @@ namespace ActivityTracker.Controllers
         {
             var ctx = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
-            var workouts = ctx.Workouts.Where(x => x.ApplicationUserID == userId).ToList();
+            var workouts = ctx.Workouts.Where(x => x.ApplicationUserID == userId).OrderByDescending(x=>x.DateOfWorkout).ToList();
             var model = workouts.Select(x => new WorkoutViewModel
             {
                 Id = x.Id,
@@ -144,17 +150,110 @@ namespace ActivityTracker.Controllers
                 ApplicationUserID = User.Identity.GetUserId()
             };
             var ctx = new ApplicationDbContext();
-            ctx.Entry(ctx.Workouts.FirstOrDefault(x=>x.Id == workout.Id))
+            ctx.Entry(ctx.Workouts.FirstOrDefault(x => x.Id == workout.Id))
                 .CurrentValues.SetValues(workout);
             ctx.SaveChanges();
             return RedirectToAction("History");
 
         }
 
+        public ActionResult DeleteWorkout(int id, bool? saveChangesError = false)
+        {
+            var ctx = new ApplicationDbContext();
+
+            Workout workout = ctx.Workouts.Where(x => x.Id == id).FirstOrDefault();
+            if (workout == null)
+            {
+                return HttpNotFound();
+            }
+            return View(workout);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteWorkout(int id)
+        {
+            var ctx = new ApplicationDbContext();
+            Workout workout = ctx.Workouts.Where(x => x.Id == id).FirstOrDefault();
+            ctx.Workouts.Remove(workout);
+            ctx.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         [Authorize]
         public ActionResult Summary()
         {
-            return View();
+            var today = DateTime.Now;
+            var date = new SummaryViewModel
+            {
+                Date = today
+            };
+            List<ColumnSeriesData> vData = new List<ColumnSeriesData>();
+            var valuePairs = date.GetDataToChart(date.Date);
+            foreach (var item in valuePairs)
+            {
+                vData.Add(new ColumnSeriesData { X = item.Key, Y = item.Value });
+            }
+            ViewData["vData"] = vData;
+            return View(date);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Summary(SummaryViewModel vm)
+        {
+            var date = new SummaryViewModel
+            {
+                Date = vm.Date
+            };
+
+            List<ColumnSeriesData> vData = new List<ColumnSeriesData>();
+            var valuePairs = date.GetDataToChart(date.Date);
+            foreach (var item in valuePairs)
+            {
+                vData.Add(new ColumnSeriesData { X = item.Key, Y = item.Value });
+            }
+            ViewData["vData"] = vData;
+            return View(date);
+        }
+
+        public FileContentResult UserPhotos()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                String userId = User.Identity.GetUserId();
+
+                if (userId == null)
+                {
+                    string fileName = HttpContext.Server.MapPath(@"~/Images/noImg.png");
+
+                    byte[] imageData = null;
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    long imageFileLength = fileInfo.Length;
+                    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new BinaryReader(fs);
+                    imageData = br.ReadBytes((int)imageFileLength);
+
+                    return File(imageData, "image/png");
+
+                }
+                var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+                var userImage = bdUsers.Users.Where(x => x.Id == userId).FirstOrDefault();
+
+                return new FileContentResult(userImage.UserAvatar, "image/jpeg");
+            }
+            else
+            {
+                string fileName = HttpContext.Server.MapPath(@"~/Images/noImg.png");
+
+                byte[] imageData = null;
+                FileInfo fileInfo = new FileInfo(fileName);
+                long imageFileLength = fileInfo.Length;
+                FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                BinaryReader br = new BinaryReader(fs);
+                imageData = br.ReadBytes((int)imageFileLength);
+                return File(imageData, "image/png");
+
+            }
         }
 
     }

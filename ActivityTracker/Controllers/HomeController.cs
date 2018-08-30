@@ -11,7 +11,13 @@ namespace ActivityTracker.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View();
+            bool val1 = (System.Web.HttpContext.Current.User != null) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+
+            if (val1)
+            {
+                return RedirectToAction("Index", "User");
+            }
+            return RedirectToAction("Login","Account");
         }
 
         public ActionResult About()

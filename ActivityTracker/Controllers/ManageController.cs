@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ActivityTracker.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.IO;
 
 namespace ActivityTracker.Controllers
 {
@@ -33,9 +34,9 @@ namespace ActivityTracker.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -55,11 +56,12 @@ namespace ActivityTracker.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
+            message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+            : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+            : message == ManageMessageId.Error ? "An error has occurred."
+            : "";
             var userId = User.Identity.GetUserId();
 
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -69,6 +71,7 @@ namespace ActivityTracker.Controllers
                 UserName = user.UserName,
                 BirthDate = user.BirthDate,
                 Gender = user.Gender,
+                UserAvatar = user.UserAvatar,
                 HasPassword = HasPassword(),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
@@ -76,12 +79,23 @@ namespace ActivityTracker.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<ActionResult> Index(IndexViewModel viewModel, ManageMessageId? message)
+        public async Task<ActionResult> Index([Bind(Exclude = "UserAvatar")]IndexViewModel viewModel, ManageMessageId? message)
         {
+            byte[] imageData = null;
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase poImgFile = Request.Files["UserAvatar"];
+
+                using (var binary = new BinaryReader(poImgFile.InputStream))
+                {
+                    imageData = binary.ReadBytes(poImgFile.ContentLength);
+                }
+            }
             var user = UserManager.FindById(viewModel.Id);
             user.UserName = viewModel.UserName;
             user.BirthDate = viewModel.BirthDate;
             user.Gender = viewModel.Gender;
+            user.UserAvatar = imageData;
             var result = await UserManager.UpdateAsync(user);
             if (result.Succeeded)
             {
@@ -356,7 +370,7 @@ namespace ActivityTracker.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -408,6 +422,6 @@ namespace ActivityTracker.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

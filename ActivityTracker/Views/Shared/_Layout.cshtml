@@ -6,15 +6,15 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="../css/simple-sidebar.css" rel="stylesheet" type="text/css" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    @*<link href="../css/simple-sidebar.css" rel="stylesheet" type="text/css" />*@
+    @*<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<body style="background-image:url(https://scontent-waw1-1.xx.fbcdn.net/v/t1.15752-9/35191369_1959519384079268_3858024063771344896_n.png?_nc_cat=0&oh=9babb5f82b02c45ad2fed1f37aaf0909&oe=5BB0745C);" >
+    <div class="navbar navbar-inverse navbar-fixed-top" >
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -25,11 +25,6 @@
                 @Html.ActionLink("Activity Tracker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                @*<ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>*@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -41,22 +36,30 @@
                 @Html.Partial("_UserPanel")
 
             }
-@*            <div class="col-xs-12 col-sm-9">*@
-
-                <div class="container body-content">
-                    @RenderBody()
-                </div>
-                <div class="footer navbar-fixed-bottom">
-                    <hr />
-                    <footer style="text-align:center">
-                        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-                    </footer>
-                </div>
+            <div class="container body-content">
+                @RenderBody()
+            </div>
+            <div class="footer navbar-fixed-bottom">
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Activity Tracker</p>
+                </footer>
             </div>
         </div>
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<style>
+    .footer {
+        text-align: center;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        min-height: 60px;
+    }
+</style>

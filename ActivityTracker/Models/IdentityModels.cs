@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -16,7 +17,7 @@ namespace ActivityTracker.Models
         public eGender? Gender { get; set; }
         public virtual ICollection<Workout> ListOfWorkouts { get; set; }
         public virtual ICollection<Steps> Steps { get; set; }
-
+        public byte[] UserAvatar { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

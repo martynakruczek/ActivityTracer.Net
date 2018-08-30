@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Highcharts.Web.Mvc, Version=6.1.0.0, Culture=neutral, PublicKeyToken=90b74bd27a557bd3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Highsoft.Highcharts.6.1.0.33\lib\net40\Highcharts.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -270,6 +273,18 @@
     <Compile Include="Migrations\201806112108552_DeleteLastName.Designer.cs">
       <DependentUpon>201806112108552_DeleteLastName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806120002527_UpgardeSteps.cs" />
+    <Compile Include="Migrations\201806120002527_UpgardeSteps.Designer.cs">
+      <DependentUpon>201806120002527_UpgardeSteps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806122303399_AvatarDelete.cs" />
+    <Compile Include="Migrations\201806122303399_AvatarDelete.Designer.cs">
+      <DependentUpon>201806122303399_AvatarDelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806122304324_AddAvatar.cs" />
+    <Compile Include="Migrations\201806122304324_AddAvatar.Designer.cs">
+      <DependentUpon>201806122304324_AddAvatar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Enums\eGender.cs" />
@@ -277,6 +292,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Steps.cs" />
+    <Compile Include="Models\StepsViewModel.cs" />
+    <Compile Include="Models\SummaryViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\Workout.cs" />
     <Compile Include="Models\WorkoutViewModel.cs" />
@@ -284,6 +301,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Sports.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -346,10 +364,9 @@
     <Content Include="Views\User\History.cshtml" />
     <Content Include="Views\User\EditWorkout.cshtml" />
     <Content Include="Views\User\Summary.cshtml" />
+    <Content Include="Views\User\DeleteWorkout.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -414,6 +431,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806112108552_DeleteLastName.resx">
       <DependentUpon>201806112108552_DeleteLastName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806120002527_UpgardeSteps.resx">
+      <DependentUpon>201806120002527_UpgardeSteps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806122303399_AvatarDelete.resx">
+      <DependentUpon>201806122303399_AvatarDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806122304324_AddAvatar.resx">
+      <DependentUpon>201806122304324_AddAvatar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
