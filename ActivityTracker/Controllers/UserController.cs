@@ -1,5 +1,4 @@
 ﻿using ActivityTracker.Models;
-using Highsoft.Web.Mvc.Charts;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
@@ -104,7 +103,7 @@ namespace ActivityTracker.Controllers
         {
             var ctx = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
-            var workouts = ctx.Workouts.Where(x => x.ApplicationUserID == userId).OrderByDescending(x=>x.DateOfWorkout).ToList();
+            var workouts = ctx.Workouts.Where(x => x.ApplicationUserID == userId).OrderByDescending(x => x.DateOfWorkout).ToList();
             var model = workouts.Select(x => new WorkoutViewModel
             {
                 Id = x.Id,
@@ -187,13 +186,9 @@ namespace ActivityTracker.Controllers
             {
                 Date = today
             };
-            List<ColumnSeriesData> vData = new List<ColumnSeriesData>();
-            var valuePairs = date.GetDataToChart(date.Date);
-            foreach (var item in valuePairs)
-            {
-                vData.Add(new ColumnSeriesData { X = item.Key, Y = item.Value });
-            }
-            ViewData["vData"] = vData;
+            int[] steps = { 0, 100, 200, 300, 6000, 0, 500, 10000 };
+            steps.ToArray();
+            ViewBag.Steps = steps;
             return View(date);
         }
 
@@ -205,14 +200,9 @@ namespace ActivityTracker.Controllers
             {
                 Date = vm.Date
             };
-
-            List<ColumnSeriesData> vData = new List<ColumnSeriesData>();
-            var valuePairs = date.GetDataToChart(date.Date);
-            foreach (var item in valuePairs)
-            {
-                vData.Add(new ColumnSeriesData { X = item.Key, Y = item.Value });
-            }
-            ViewData["vData"] = vData;
+            int[] steps = { 0, 100, 200, 300, 6000, 0, 500, 10000 };
+            steps.ToArray();
+            ViewBag.Steps = steps;
             return View(date);
         }
 
@@ -238,8 +228,23 @@ namespace ActivityTracker.Controllers
                 }
                 var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
                 var userImage = bdUsers.Users.Where(x => x.Id == userId).FirstOrDefault();
+                if (userImage.UserAvatar == null)
+                {
+                    string fileName = HttpContext.Server.MapPath(@"~/Images/noImg.png");
+                    
+                    byte[] imageData = null;
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    long imageFileLength = fileInfo.Length;
+                    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new BinaryReader(fs);
+                    imageData = br.ReadBytes((int)imageFileLength);
 
-                return new FileContentResult(userImage.UserAvatar, "image/jpeg");
+                    return File(imageData, "image/png");
+                }
+                else
+                {
+                    return new FileContentResult(userImage.UserAvatar, "image/jpeg");
+                }
             }
             else
             {

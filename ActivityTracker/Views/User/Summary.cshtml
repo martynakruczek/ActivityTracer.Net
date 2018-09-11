@@ -1,84 +1,33 @@
-﻿<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-
-@using Highsoft.Web.Mvc.Charts
-@using System.Collections
+﻿
 @model ActivityTracker.Models.SummaryViewModel
 
 @{
     ViewBag.Title = "Summary";
 }
 <div class="col-xs-12 col-sm-9">
-    <script type="text/javascript">
-        function formatXAxis() {
-            return this.value; // clean, unformatted number for year
-        }
-
-        function formatYAxis() {
-            return this.value;
-        }
+    <div class="col-xs-12 col-sm-9">
+        <div Style=" font-size: small;text-align:center " class="row">
+            <div style="width:100%;height:100%">
+                <canvas id="myChart" style="padding: 0;margin: auto;display: block; "> </canvas>
+            </div>
+        </div>
+    </div>
+    <script>
+    var steps = @Html.Raw(Json.Encode(ViewBag.Steps));
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["3", "6", "9", "12", "15", "18", "21", "24" ],
+            datasets: [{
+                label: 'Steps',
+                backgroundColor: 'rgb(128,0,0)',
+                borderColor: 'rgb(128, 0, 0)',
+                data: [12, 19, 300, 50, 200, 310, 100, 0]
+            }]
+        },
+    });
     </script>
-
-
-    @(Html.Highsoft().GetHighcharts(
-            new Highcharts
-            {
-                Title = new Title
-                {
-                    Text = "Daily steps"
-                },
-
-                XAxis = new List<XAxis>
-                {
-                    new XAxis
-                    {
-                        Type = XAxisType.Datetime,
-                        DateTimeLabelFormats = new Hashtable
-                        {
-
-                            { "hour", "%H:%M" },
-                        }
-                    }
-                },
-                    YAxis = new List<YAxis>
-                    {
-                        new YAxis
-                        {
-                            Title = new YAxisTitle
-                            {
-                                Text = "Steps"
-                            },
-                            Min = 0,
-                        }
-                    },
-                        
-                    Tooltip = new Tooltip
-                    {
-                        HeaderFormat = "<span style='font-size:10px'>{point.key}</span><table style='font-size:12px'>",
-                        PointFormat = "<tr><td style='color:{series.color};padding:0'>{series.name}: </td><td style='padding:0'><b>{point.y:.1f}&nbsp;</b></td></tr>",
-                        FooterFormat = "</table>",
-                        Shared = true,
-                        UseHTML = true
-                    },
-                    PlotOptions = new PlotOptions
-                    {
-                        Column = new PlotOptionsColumn
-                        {
-                            PointPadding = 0.2,
-                            BorderWidth = 0
-                        }
-                    },
-                    Series = new List<Series>
-                    {
-                        new ColumnSeries
-                        {
-                            Name = "Steps",
-                            Data = @ViewData["vData"] as List<ColumnSeriesData>
-                        }   
-                    }
-                }
-                , "chart")
-)
 
     @using (Html.BeginForm())
     {

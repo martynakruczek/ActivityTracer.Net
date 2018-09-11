@@ -12,7 +12,7 @@ namespace ActivityTracker.Models
         public string Email { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Birth date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-mm-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime ? BirthDate { get; set; }
         public eGender? Gender { get; set; }
         public byte[] UserAvatar { get; set; }
