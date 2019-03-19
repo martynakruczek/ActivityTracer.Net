@@ -3,10 +3,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -97,19 +95,35 @@ namespace ActivityTracker.Controllers
 
             return RedirectToAction("History");
         }
+
         [HttpPost]
         [Route("api/steps/add")]
-        public ActionResult AddSteps()
+        public int AddSteps(Steps steps)
         {
             var userId = User.Identity.GetUserId();
             var user = UserManager.FindById(userId);
             var ctx = new ApplicationDbContext();
-            var steps = new Steps()
-            {
 
-            }
-            return "sth";
+            steps.ApplicationUserID = userId;
+
+            ctx.Steps.Add(steps);
+            ctx.SaveChanges();
+            return 200;
         }
+
+        public JsonResult GetAllSteps(int userId)
+        {
+            var ctx = new ApplicationDbContext();
+            var steps = ctx.Steps.ToList();
+
+            return Json(steps, JsonRequestBehavior.AllowGet);
+        }
+
+        public class StepsInput
+        {
+
+        }
+
         [Authorize]
         public ActionResult History()
         {
@@ -243,7 +257,7 @@ namespace ActivityTracker.Controllers
                 if (userImage.UserAvatar == null)
                 {
                     string fileName = HttpContext.Server.MapPath(@"~/Images/noImg.png");
-                    
+
                     byte[] imageData = null;
                     FileInfo fileInfo = new FileInfo(fileName);
                     long imageFileLength = fileInfo.Length;
