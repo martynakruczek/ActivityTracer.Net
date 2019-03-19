@@ -107,8 +107,8 @@ namespace ActivityTracker.Controllers
             var steps = new Steps()
             {
 
-            }
-            return "sth";
+            };
+            return null;
         }
         [Authorize]
         public ActionResult History()
