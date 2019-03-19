@@ -97,7 +97,19 @@ namespace ActivityTracker.Controllers
 
             return RedirectToAction("History");
         }
+        [HttpPost]
+        [Route("api/steps/add")]
+        public ActionResult AddSteps()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            var ctx = new ApplicationDbContext();
+            var steps = new Steps()
+            {
 
+            }
+            return "sth";
+        }
         [Authorize]
         public ActionResult History()
         {
