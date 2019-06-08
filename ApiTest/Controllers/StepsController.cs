@@ -9,31 +9,30 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ActivityTracker.Models;
-using ApiTest.Models;
 
 namespace ApiTest.Controllers
 {
     public class StepsController : ApiController
     {
-        private StepsContext db = new StepsContext();
+        private StepsDbContext db = new StepsDbContext();
 
         // GET: api/Steps
         public IQueryable<Steps> GetSteps()
         {
-            return db.Steps;
+            return db.StepsList;
         }
 
         [Route("getUserSteps/{userId}")]
         public IQueryable<Steps> GetUserSteps(string userId)
         {
-            return db.Steps.Where(x => x.ApplicationUserID == userId);
+            return db.StepsList.Where(x => x.ApplicationUserID == userId);
         }
 
         // GET: api/Steps/5
         [ResponseType(typeof(Steps))]
         public IHttpActionResult GetSteps(int id)
         {
-            Steps steps = db.Steps.Find(id);
+            Steps steps = db.StepsList.Find(id);
             if (steps == null)
             {
                 return NotFound();
@@ -86,27 +85,12 @@ namespace ApiTest.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Steps.Add(steps);
+            db.StepsList.Add(steps);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = steps.Id }, steps);
         }
 
-        // DELETE: api/Steps/5
-        [ResponseType(typeof(Steps))]
-        public IHttpActionResult DeleteSteps(int id)
-        {
-            Steps steps = db.Steps.Find(id);
-            if (steps == null)
-            {
-                return NotFound();
-            }
-
-            db.Steps.Remove(steps);
-            db.SaveChanges();
-
-            return Ok(steps);
-        }
 
         protected override void Dispose(bool disposing)
         {
@@ -119,7 +103,7 @@ namespace ApiTest.Controllers
 
         private bool StepsExists(int id)
         {
-            return db.Steps.Count(e => e.Id == id) > 0;
+            return db.StepsList.Count(e => e.Id == id) > 0;
         }
     }
 }

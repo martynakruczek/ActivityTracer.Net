@@ -16,7 +16,6 @@ namespace ActivityTracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
         public UserController()
         {
         }
@@ -27,6 +26,7 @@ namespace ActivityTracker.Controllers
             SignInManager = signInManager;
 
         }
+
         public ApplicationSignInManager SignInManager
         {
             get
@@ -97,23 +97,12 @@ namespace ActivityTracker.Controllers
 
             return RedirectToAction("History");
         }
-        [HttpPost]
-        [Route("api/steps/add")]
-        public ActionResult AddSteps()
-        {
-            var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
-            var ctx = new ApplicationDbContext();
-            var steps = new Steps()
-            {
-
-            };
-            return null;
-        }
+       
         [Authorize]
         public ActionResult History()
         {
             var ctx = new ApplicationDbContext();
+
             var userId = User.Identity.GetUserId();
             var workouts = ctx.Workouts.Where(x => x.ApplicationUserID == userId).OrderByDescending(x => x.DateOfWorkout).ToList();
             var model = workouts.Select(x => new WorkoutViewModel
@@ -193,14 +182,19 @@ namespace ActivityTracker.Controllers
         [Authorize]
         public ActionResult Summary()
         {
+            var client = new System.Net.Http.HttpClient();
+            var response = client.GetAsync("http://2d7fe7bc.ngrok.io/api/Steps").Result;
+            var result = response.Content.ReadAsStringAsync().Result;
             var today = DateTime.Now;
             var date = new SummaryViewModel
             {
-                Date = today
+                Date = today,
             };
-            int[] steps = { 0, 100, 200, 300, 6000, 0, 500, 10000 };
-            steps.ToArray();
-            ViewBag.Steps = steps;
+
+            List<Steps> list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Steps>>(result);
+            var steps = list.Where(x => x.Day.Date == date.Date.Date).ToList();
+            ViewBag.Steps = steps.Select(x=>x.NumberOfSteps);
+            ViewBag.Time = steps.Select(x => x.Day.ToShortTimeString());
             return View(date);
         }
 
@@ -208,10 +202,12 @@ namespace ActivityTracker.Controllers
         [HttpPost]
         public ActionResult Summary(SummaryViewModel vm)
         {
+            var userId = User.Identity.GetUserId();
             var date = new SummaryViewModel
             {
                 Date = vm.Date
             };
+
             int[] steps = { 0, 100, 200, 300, 6000, 0, 500, 10000 };
             steps.ToArray();
             ViewBag.Steps = steps;

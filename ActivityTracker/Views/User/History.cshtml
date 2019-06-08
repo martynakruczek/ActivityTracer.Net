@@ -16,6 +16,9 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Sport)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DateOfWorkout)
             </th>
             <th>
@@ -29,24 +32,27 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfWorkout)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndAt)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "EditWorkout", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "DeleteWorkout", new { id = item.Id })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfWorkout)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndAt)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditWorkout", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteWorkout", new { id = item.Id })
+            </td>
+        </tr>
         }
 
     </table>

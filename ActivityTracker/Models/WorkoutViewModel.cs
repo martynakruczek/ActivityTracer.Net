@@ -24,6 +24,5 @@ namespace ActivityTracker.Models
         [Display(Name = "End")]
         public DateTime? EndAt { get; set; }
         public string ApplicationUserID { get; set; }
-
     }
 }

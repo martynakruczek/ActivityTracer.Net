@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ActivityTracker</RootNamespace>
     <AssemblyName>ActivityTracker</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -124,11 +125,7 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -349,13 +346,24 @@
     <Compile Include="Migrations\201806122304324_AddAvatar.Designer.cs">
       <DependentUpon>201806122304324_AddAvatar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904232003382_sdada.cs" />
+    <Compile Include="Migrations\201904232003382_sdada.Designer.cs">
+      <DependentUpon>201904232003382_sdada.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905072201388_raw-data.cs" />
+    <Compile Include="Migrations\201905072201388_raw-data.Designer.cs">
+      <DependentUpon>201905072201388_raw-data.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906062134561_Last.cs" />
+    <Compile Include="Migrations\201906062134561_Last.Designer.cs">
+      <DependentUpon>201906062134561_Last.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Enums\eGender.cs" />
     <Compile Include="Models\Enums\eSport.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Steps.cs" />
     <Compile Include="Models\StepsViewModel.cs" />
     <Compile Include="Models\SummaryViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
@@ -380,6 +388,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
@@ -433,7 +442,16 @@
     <Content Include="Views\User\Summary.cshtml" />
     <Content Include="Views\User\DeleteWorkout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ApiTest\ApiTest.csproj">
+      <Project>{baf23ec9-f196-4215-abcc-21ac4f5e321e}</Project>
+      <Name>ApiTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{17f40cb9-7cd0-4d5f-87e0-5350de58da9c}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -507,6 +525,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806122304324_AddAvatar.resx">
       <DependentUpon>201806122304324_AddAvatar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904232003382_sdada.resx">
+      <DependentUpon>201904232003382_sdada.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905072201388_raw-data.resx">
+      <DependentUpon>201905072201388_raw-data.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906062134561_Last.resx">
+      <DependentUpon>201906062134561_Last.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

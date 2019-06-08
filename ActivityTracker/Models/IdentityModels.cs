@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Infrastructure.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -17,6 +18,7 @@ namespace ActivityTracker.Models
         public eGender? Gender { get; set; }
         public virtual ICollection<Workout> ListOfWorkouts { get; set; }
         public virtual ICollection<Steps> Steps { get; set; }
+        public virtual ICollection<RawData> ListOfRawData { get; set; }
         public byte[] UserAvatar { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -31,25 +33,18 @@ namespace ActivityTracker.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("ConnectionToDatabase", throwIfV1Schema: false)
         {
         }
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<Steps> Steps { get; set; }
+        public DbSet<RawData> ListOfRawData { get; set; }
 
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
-
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Workout>()
-        //                .HasRequired(p => p.ApplicationUser)
-        //                .WithMany(t => t.ListOfWorkouts)
-        //                .HasForeignKey(p => p.ApplicationUser_Id);
-        //}
     }
 
 }

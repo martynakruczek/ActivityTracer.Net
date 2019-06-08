@@ -4,26 +4,26 @@
 @{
     ViewBag.Title = "Summary";
 }
-<div class="col-xs-12 col-sm-9">
-    <div class="col-xs-12 col-sm-9">
-        <div Style=" font-size: small;text-align:center " class="row">
-            <div style="width:100%;height:100%">
-                <canvas id="myChart" style="padding: 0;margin: auto;display: block; "> </canvas>
-            </div>
+<div class="col-xs-12 col-sm-10">
+    <div Style=" font-size: small;text-align:center " class="row">
+        <div style="width:100%;height:100%">
+            <canvas id="myChart" style="padding: 0;margin: auto;display: block; "> </canvas>
         </div>
     </div>
     <script>
     var steps = @Html.Raw(Json.Encode(ViewBag.Steps));
+    var time = @Html.Raw(Json.Encode(ViewBag.Time));
+
     var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["3", "6", "9", "12", "15", "18", "21", "24" ],
+            labels: time,
             datasets: [{
                 label: 'Steps',
                 backgroundColor: 'rgb(128,0,0)',
                 borderColor: 'rgb(128, 0, 0)',
-                data: [12, 19, 300, 50, 200, 310, 100, 0]
+                data: steps,
             }]
         },
     });
@@ -44,6 +44,5 @@
                 </div>
             </div>
         </div>
-
     }
 </div>
